@@ -57,7 +57,7 @@ Threshold: ${threshold}%
         Send-MailMessage -To $toEmail -From $fromEmail -Subject $subject -Body $body -SmtpServer $smtpServer
 
         # Log to file
-        $logLine = "$timestamp - $hostname ($ip): $usedMemPercent% used"
+        $logLine = "$timestamp - $hostname ($ip): $usedMemPercent% used (alert sent)"
         Add-Content -Path $dailyLog -Value $logLine
 
         # Update last alert timestamp
@@ -67,4 +67,7 @@ Threshold: ${threshold}%
         $logLine = "$timestamp - $hostname ($ip): $usedMemPercent% used (alert suppressed)"
         Add-Content -Path $dailyLog -Value $logLine
     }
+} else {
+        $logLine = "$timestamp - $hostname ($ip): $usedMemPercent% used"
+        Add-Content -Path $dailyLog -Value $logLine
 }
