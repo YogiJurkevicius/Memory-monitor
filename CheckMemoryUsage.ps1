@@ -67,4 +67,7 @@ Threshold: ${threshold}%
         $logLine = "$timestamp - $hostname ($ip): $usedMemPercent% used (alert suppressed)"
         Add-Content -Path $dailyLog -Value $logLine
     }
+} else {
+        $logLine = "$timestamp - $hostname ($ip): $usedMemPercent% used"
+        Add-Content -Path $dailyLog -Value $logLine
 }
