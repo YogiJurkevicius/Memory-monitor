@@ -60,7 +60,7 @@ Use Windows Task Scheduler to run the script regularly:
 - **Trigger**: Every 5 or 10 minutes
 - **Action**: Run this command:
   ```powershell
-  powershell.exe -ExecutionPolicy Bypass -File "C:\Scripts\CheckMemoryUsage.ps1"
+  powershell.exe -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File "C:\Scripts\CheckMemoryUsage.ps1"
   ```
 - **Run with highest privileges**
 
