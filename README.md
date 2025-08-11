@@ -52,20 +52,12 @@ Threshold: 80%
   ```
   C:\Scripts\Logs\LastAlert.txt
   ```
+---
+#### TaskScheduler.xml
 
-#### Scheduling
-
-Use Windows Task Scheduler to run the script regularly:
-
-- **Trigger**: Every 5 or 10 minutes
-- **Action**: Run this command:
-  ```powershell
-  powershell.exe -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File "C:\Scripts\CheckMemoryUsage.ps1"
-  ```
-- **Run with highest privileges**
+Uses Windows Task Scheduler to run the script regularly. Starts when first created, Rebooted, and every morning and then runs every 5 minutes afterwards.
 
 ---
-
 ###  `MemoryHog.ps1`
 
 Used to simulate high memory usage (~2 GB) to test the alerting system.
