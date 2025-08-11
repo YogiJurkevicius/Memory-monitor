@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Date>2025-08-11T12:00:00</Date>
+    <Author>YogiJurkevicius</Author>
+    <Description>Runs memory monitor script every 5 minutes forever, restarts after reboot</Description>
+  </RegistrationInfo>
+  <Triggers>
+    <!-- Run at system startup -->
+    <BootTrigger>
+      <Enabled>true</Enabled>
+    </BootTrigger>
+
+    <!-- Run every 5 minutes -->
+    <CalendarTrigger>
+      <StartBoundary>2025-08-11T00:00:00</StartBoundary>
+      <Enabled>true</Enabled>
+      <ScheduleByDay>
+        <DaysInterval>1</DaysInterval>
+      </ScheduleByDay>
+      <Repetition>
+        <Interval>PT5M</Interval>
+        <Duration>P1D</Duration>
+        <StopAtDurationEnd>false</StopAtDurationEnd>
+      </Repetition>
+    </CalendarTrigger>
+
+    <EventTrigger>
+      <Enabled>true</Enabled>
+      <Subscription>
+        <![CDATA[
+        <QueryList>
+          <Query Id="0" Path="Microsoft-Windows-TaskScheduler/Operational">
+            <Select Path="Microsoft-Windows-TaskScheduler/Operational">
+              *[System[Provider[@Name='Microsoft-Windows-TaskScheduler'] and EventID=106]]
+            </Select>
+          </Query>
+        </QueryList>
+        ]]>
+      </Subscription>
+    </EventTrigger>
+  </Triggers>
+
+  <Principals>
+    <Principal id="Author">
+      <UserId>S-1-5-18</UserId>
+      <RunLevel>HighestAvailable</RunLevel>
+    </Principal>
+  </Principals>
+
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <AllowHardTerminate>true</AllowHardTerminate>
+    <StartWhenAvailable>true</StartWhenAvailable>
+    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
+    <IdleSettings>
+      <StopOnIdleEnd>false</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <AllowStartOnDemand>true</AllowStartOnDemand>
+    <Enabled>true</Enabled>
+    <Hidden>false</Hidden>
+    <RunOnlyIfIdle>false</RunOnlyIfIdle>
+    <WakeToRun>true</WakeToRun>
+    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
+    <Priority>7</Priority>
+    <RestartOnFailure>
+      <Interval>PT1M</Interval>
+      <Count>3</Count>
+    </RestartOnFailure>
+  </Settings>
+
+  <Actions Context="Author">
+    <Exec>
+      <Command>powershell.exe</Command>
+	  <Arguments>powershell.exe -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File "C:\Scripts\CheckMemoryUsage.ps1"</Arguments>
+    </Exec>
+  </Actions>
+</Task>
